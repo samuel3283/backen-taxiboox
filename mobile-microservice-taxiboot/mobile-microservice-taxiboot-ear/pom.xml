@@ -1,0 +1,59 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>pe.com.microservice.taxiboot</groupId>
+    <artifactId>mobile-microservice-taxiboot</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>mobile-microservice-taxiboot-ear</artifactId>
+  <packaging>ear</packaging>
+  <dependencies>
+  	<dependency>
+  		<groupId>pe.com.microservice.taxiboot</groupId>
+  		<artifactId>mobile-microservice-taxiboot-web</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  		<type>war</type>
+  	</dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+      </plugin>
+    
+      <plugin>
+        <artifactId>maven-ear-plugin</artifactId>
+        <configuration>
+
+                    <version>6</version>
+                    <defaultLibBundleDir>lib</defaultLibBundleDir>
+                    <webXml>/src/main/webapp/WEB-INF/web.xml</webXml>
+                    
+                    <modules>
+                        <webModule>
+                            <groupId>pe.com.microservice.taxiboot</groupId>
+                            <artifactId>mobile-microservice-taxiboot-web</artifactId>
+                            <bundleFileName>taxiboot.war</bundleFileName>
+                            <contextRoot>/TaxiBootService</contextRoot>
+                        </webModule>
+                    </modules>
+                    <displayName>mobile-taxiboot-ear</displayName>
+                    <!-- If I want maven to generate the application.xml, set this to true -->
+                    <generateApplicationXml>true</generateApplicationXml>
+
+        </configuration>
+      </plugin>
+      
+      
+      
+    </plugins>
+  </build>
+
+
+</project>
