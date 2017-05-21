@@ -53,8 +53,9 @@ public class EquipoServiceImpl implements EquipoService {
 		Date date = format.parse(bean.getFecModifica()); // mysql datetime format		
 		long ultimaConexion = date.getTime();
 
-		long inactiveTimeout = 60;
+		long inactiveTimeout = 60000;
 		long now = System.currentTimeMillis();
+		logger.info("==>now:"+now+"==>ultimaConexion:"+ultimaConexion+"==>inactiveTimeout:"+inactiveTimeout);			
 		
 		if ((now - ultimaConexion) >= inactiveTimeout) {			
 			logger.info("Tiempo de validación de sms expiradao");			
