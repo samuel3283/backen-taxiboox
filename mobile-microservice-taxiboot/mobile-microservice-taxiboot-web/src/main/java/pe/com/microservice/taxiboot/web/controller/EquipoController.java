@@ -67,7 +67,7 @@ public class EquipoController {
 	public TransactionRs<BeanResponse> reenviaSms(
 			@RequestHeader HttpHeaders headers, @RequestBody Equipo request) {
 		
-		logger.info("reenviaSms.");
+		logger.info("reenviaSms");
 		TransactionRs<BeanResponse> response = new TransactionRs<BeanResponse>();
 		
 		try {
