@@ -41,11 +41,13 @@ public class EquipoServiceImpl implements EquipoService {
 		return sms;
 	}
 
+
 	@Override
 	public void validaEquipo(Equipo equipo)  throws Exception {
-
+		logger.info("validaEquipo");	
 		Equipo bean = equipoRepository.getEquipoxSms(equipo);	
 		
+		logger.info("validamos");	
 		if(bean==null)
 			throw new Exception("Error not found");
 
@@ -56,15 +58,16 @@ public class EquipoServiceImpl implements EquipoService {
 		long inactiveTimeout = 60000;
 		long now = System.currentTimeMillis();
 		logger.info("==>now:"+now+"==>ultimaConexion:"+ultimaConexion+"==>inactiveTimeout:"+inactiveTimeout);			
-		
+		/*
 		if ((now - ultimaConexion) >= inactiveTimeout) {			
 			logger.info("Tiempo de validación de sms expiradao");			
 			throw new Exception("Error validation sms expired");
 		} 		
-		
+		*/
 		equipoRepository.updateValidaEquipo(equipo);
 
 	}
+
 
 	@Override
 	public String reenviarEquipo(Equipo equipo)  throws Exception {
@@ -89,6 +92,11 @@ public class EquipoServiceImpl implements EquipoService {
 		equipoRepository.insertEquipo(equipo);
 	}
 	
+	@Override
+	public void deleteEquipo(Equipo equipo)  throws Exception {
+		equipoRepository.deleteEquipo(equipo);
+	}
+
 	public String completar(int numero) {
 		
 		String valor = String.valueOf(numero);

@@ -36,4 +36,10 @@ public class ConductorServiceImpl implements ConductorService {
 		
 	}
 	
+	@Override
+	public	void deleteConductor(Conductor conductor) throws Exception {
+		conductorRepository.deleteConductor(conductor);
+	}
+
+	
 }

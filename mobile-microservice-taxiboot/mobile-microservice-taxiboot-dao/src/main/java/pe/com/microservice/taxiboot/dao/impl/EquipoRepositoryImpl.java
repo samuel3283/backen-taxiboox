@@ -243,15 +243,35 @@ public class EquipoRepositoryImpl implements EquipoRepository {
 		StringBuilder sql_insert_user = new StringBuilder();
 		sql_insert_user.append("UPDATE TBL_EQUIPO ");
 		sql_insert_user.append("SET SMS=?, FEC_MODIFICA=? ");
-		sql_insert_user.append("WHERE DEVICE=? AND DEVICETYPE=? AND TELEFONO=? AND ESTADO=? ");
-	
+		sql_insert_user.append("WHERE DEVICE=? AND DEVICETYPE=? AND TELEFONO=? ");
+		//sql_insert_user.append("WHERE DEVICE=? AND DEVICETYPE=? AND TELEFONO=? AND ESTADO=? ");
+		
 		java.util.Date dt = new java.util.Date();
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String fechaHora = sdf.format(dt);
         
         Object[] params = new Object[] {
         equipo.getSms(), fechaHora,
-		equipo.getDevice(), equipo.getDeviceType(), equipo.getTelefono(),  equipo.getEstado()
+		equipo.getDevice(), equipo.getDeviceType(), equipo.getTelefono()
+		//, equipo.getEstado()
+		};
+		jdbcTemplate.update(sql_insert_user.toString(), params);
+				
+	}
+
+	
+	@Override
+	public void deleteEquipo(Equipo equipo) throws Exception {
+		
+		StringBuilder sql_insert_user = new StringBuilder();
+		sql_insert_user.append("DELETE FROM TBL_EQUIPO WHERE DEVICE=? AND DEVICETYPE=? AND TELEFONO=? ");
+		
+		java.util.Date dt = new java.util.Date();
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String fechaHora = sdf.format(dt);
+        
+        Object[] params = new Object[] {
+		equipo.getDevice(), equipo.getDeviceType(), equipo.getTelefono()
 		};
 		jdbcTemplate.update(sql_insert_user.toString(), params);
 				

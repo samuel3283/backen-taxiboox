@@ -22,6 +22,7 @@ public class EquipoMapper implements RowMapper<Equipo> {
 			bean.setFecExpira(rs.getString(8));
 			bean.setFecRegistro(rs.getString(9));
 			bean.setFecModifica(rs.getString(10));
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}				

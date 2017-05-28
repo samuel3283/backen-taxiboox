@@ -88,4 +88,20 @@ public class ConductorRepositoryImpl implements ConductorRepository {
 	}
 
 
+	@Override
+	public void deleteConductor(Conductor conductor) throws Exception {
+	
+		StringBuilder sql_insert_user = new StringBuilder();
+		sql_insert_user.append("DELETE FROM TBL_CONDUCTOR ");
+		sql_insert_user.append("WHERE DEVICE=? AND DEVICETYPE=? AND TELEFONO=? ");
+		logger.info("deleteCon");
+		
+		Object[] params = new Object[] {
+		conductor.getDevice(), conductor.getDeviceType(), conductor.getTelefono()
+		};
+		jdbcTemplate.update(sql_insert_user.toString(), params);
+		logger.info("fin delCon");
+				
+	}
+
 }

@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Built-By: snavarrr
-Build-Jdk: 1.7.0_79
+Build-Jdk: 1.8.0_60
 Implementation-Title: mobile-microservice-taxiboot-web
 Implementation-Version: 0.0.1-SNAPSHOT
 Implementation-Vendor-Id: pe.com.microservice.taxiboot
