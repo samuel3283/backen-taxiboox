@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import pe.com.microservice.taxiboot.core.HeaderRqUtil;
-import pe.com.microservice.taxiboot.dao.EquipoRepository;
 import pe.com.microservice.taxiboot.model.BeanRequest;
 import pe.com.microservice.taxiboot.model.BeanResponse;
 import pe.com.microservice.taxiboot.model.Conductor;
