@@ -1,5 +1,8 @@
 package pe.com.microservice.taxiboot.service.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import pe.com.microservice.taxiboot.dao.ConductorRepository;
 import pe.com.microservice.taxiboot.model.Conductor;
+import pe.com.microservice.taxiboot.model.Mail;
 import pe.com.microservice.taxiboot.service.ConductorService;
 
 @Service
@@ -22,6 +26,21 @@ public class ConductorServiceImpl implements ConductorService {
 	public 	void insertConductor(Conductor conductor) throws Exception {
 		conductor.setEstado(new Integer(1));
 		conductorRepository.insertConductor(conductor);
+
+		Mail mail = new Mail();
+		mail.setTo(conductor.getEmail());
+		mail.setFrom("backend@bancamovil.local");
+		mail.setFromName(conductor.getNombre());
+		mail.setSubject(conductor.getNombre()+", Bienvenido a TaxiBoox");		
+		mail.setCc("samuel3283@gmail.com");
+		
+		Map<String, Object> contents = new HashMap<>();
+		contents.put("nombreOperacion", "Registro de Conductor");
+		contents.put("nombreCliente", conductor.getNombre());
+		
+		mail.setContents(contents);
+		//mailService.sendMail(mail);
+		
 	}
 	
 	@Override
