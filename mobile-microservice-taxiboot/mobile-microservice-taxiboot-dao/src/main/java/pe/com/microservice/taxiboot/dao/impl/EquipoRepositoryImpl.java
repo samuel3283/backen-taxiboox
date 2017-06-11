@@ -68,7 +68,7 @@ public class EquipoRepositoryImpl implements EquipoRepository {
 	public void insertEquipo(Equipo equipo) throws Exception {
 	
 		StringBuilder sql_insert_user = new StringBuilder();
-		sql_insert_user.append("INSERT INTO TBL_EQUIPO ");
+		sql_insert_user.append("INSERT INTO tbl_equipo ");
 		sql_insert_user.append("(DEVICE,DEVICETYPE,PAIS,TELEFONO,SMS,ESTADO,FEC_EXPIRA,FEC_REGISTRO,FEC_MODIFICA) ");
 		sql_insert_user.append("VALUES (?,?,?,?,?,?,?,?,?) ");
 		logger.info("insert");
@@ -117,7 +117,7 @@ public class EquipoRepositoryImpl implements EquipoRepository {
 	public void updateEquipo(Equipo equipo) throws Exception {
 	
 		StringBuilder sql_insert_user = new StringBuilder();
-		sql_insert_user.append("UPDATE TBL_EQUIPO ");
+		sql_insert_user.append("UPDATE tbl_equipo ");
 		sql_insert_user.append("SET PAIS=?, TELEFONO=?, SMS=?, FEC_EXPIRA=?, FEC_MODIFICA=? ");
 		sql_insert_user.append("WHERE DEVICE=? AND DEVICETYPE=? AND TELEFONO=? AND ESTADO=? ");
 	
@@ -155,7 +155,7 @@ public class EquipoRepositoryImpl implements EquipoRepository {
 		sql_find_user.append("DATE_FORMAT(FEC_EXPIRA,'%d/%m/%Y %H:%i:%s') FEC_EXP, ");
 		sql_find_user.append("DATE_FORMAT(FEC_REGISTRO,'%d/%m/%Y %H:%i:%s') FEC_REG, ");
 		sql_find_user.append("DATE_FORMAT(FEC_MODIFICA,'%d/%m/%Y %H:%i:%s') FEC_MOD ");
-  		sql_find_user.append("FROM TBL_EQUIPO WHERE DEVICE=? AND DEVICETYPE=? AND TELEFONO=? AND ESTADO=? ");
+  		sql_find_user.append("FROM tbl_equipo WHERE DEVICE=? AND DEVICETYPE=? AND TELEFONO=? AND ESTADO=? ");
 		
   		
 		Object[] params = new Object[] {
@@ -179,7 +179,7 @@ public class EquipoRepositoryImpl implements EquipoRepository {
 		sql_find_user.append("DATE_FORMAT(FEC_EXPIRA,'%d/%m/%Y %H:%i:%s') FEC_EXP, ");
 		sql_find_user.append("DATE_FORMAT(FEC_REGISTRO,'%d/%m/%Y %H:%i:%s') FEC_REG, ");
 		sql_find_user.append("DATE_FORMAT(FEC_MODIFICA,'%d/%m/%Y %H:%i:%s') FEC_MOD ");
-  		sql_find_user.append("FROM TBL_EQUIPO WHERE DEVICE=? AND DEVICETYPE=? AND TELEFONO=? AND SMS=? AND ESTADO=? ");
+  		sql_find_user.append("FROM tbl_equipo WHERE DEVICE=? AND DEVICETYPE=? AND TELEFONO=? AND SMS=? AND ESTADO=? ");
 		
 		Object[] params = new Object[] {
 		equipo.getDevice(), equipo.getDeviceType(), equipo.getTelefono(), equipo.getSms(), equipo.getEstado()
@@ -202,7 +202,7 @@ public class EquipoRepositoryImpl implements EquipoRepository {
 		sql_find_user.append("DATE_FORMAT(FEC_EXPIRA,'%d/%m/%Y %H:%i:%s') FEC_EXP, ");
 		sql_find_user.append("DATE_FORMAT(FEC_REGISTRO,'%d/%m/%Y %H:%i:%s') FEC_REG, ");
 		sql_find_user.append("DATE_FORMAT(FEC_MODIFICA,'%d/%m/%Y %H:%i:%s') FEC_MOD ");
-  		sql_find_user.append("FROM TBL_EQUIPO WHERE DEVICE=? AND DEVICETYPE=? AND PAIS=? AND TELEFONO=? AND ESTADO=? ");
+  		sql_find_user.append("FROM tbl_equipo WHERE DEVICE=? AND DEVICETYPE=? AND PAIS=? AND TELEFONO=? AND ESTADO=? ");
 		
 		Object[] params = new Object[] {
 		equipo.getDevice(), equipo.getDeviceType(), equipo.getPais(), equipo.getTelefono(), equipo.getEstado()
@@ -220,7 +220,7 @@ public class EquipoRepositoryImpl implements EquipoRepository {
 	public void updateValidaEquipo(Equipo equipo) throws Exception {
 		
 		StringBuilder sql_insert_user = new StringBuilder();
-		sql_insert_user.append("UPDATE TBL_EQUIPO ");
+		sql_insert_user.append("UPDATE tbl_equipo ");
 		sql_insert_user.append("SET ESTADO=?, FEC_MODIFICA=? ");
 		sql_insert_user.append("WHERE DEVICE=? AND DEVICETYPE=? AND TELEFONO=? AND ESTADO=? ");
 	
@@ -241,7 +241,7 @@ public class EquipoRepositoryImpl implements EquipoRepository {
 	public void updateNewSmsEquipo(Equipo equipo) throws Exception {
 		
 		StringBuilder sql_insert_user = new StringBuilder();
-		sql_insert_user.append("UPDATE TBL_EQUIPO ");
+		sql_insert_user.append("UPDATE tbl_equipo ");
 		sql_insert_user.append("SET SMS=?, FEC_MODIFICA=? ");
 		sql_insert_user.append("WHERE DEVICE=? AND DEVICETYPE=? AND TELEFONO=? AND ESTADO=? ");
 	
@@ -257,5 +257,21 @@ public class EquipoRepositoryImpl implements EquipoRepository {
 				
 	}
 
-	
+	@Override
+	public void deleteEquipo(Equipo equipo) throws Exception {
+		
+		StringBuilder sql_insert_user = new StringBuilder();
+		sql_insert_user.append("DELETE FROM tbl_equipo WHERE DEVICE=? AND DEVICETYPE=? AND TELEFONO=? ");
+		
+		java.util.Date dt = new java.util.Date();
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String fechaHora = sdf.format(dt);
+        
+        Object[] params = new Object[] {
+		equipo.getDevice(), equipo.getDeviceType(), equipo.getTelefono()
+		};
+		jdbcTemplate.update(sql_insert_user.toString(), params);
+				
+	}
+
 }

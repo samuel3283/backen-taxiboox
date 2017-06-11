@@ -35,5 +35,11 @@ public class ConductorServiceImpl implements ConductorService {
 		logger.info("getConductor:"+bean.toString());
 		
 	}
-	
+
+	@Override
+	public	void deleteConductor(Conductor conductor) throws Exception {
+		conductorRepository.deleteConductor(conductor);
+	}
+
+
 }

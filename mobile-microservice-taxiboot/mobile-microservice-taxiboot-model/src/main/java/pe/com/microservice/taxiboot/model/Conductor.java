@@ -1,5 +1,7 @@
 package pe.com.microservice.taxiboot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Conductor {
 
 	private Integer codigo;
@@ -18,10 +20,16 @@ public class Conductor {
 	private String telefono;
 	
 	private Integer estado;
+	@JsonIgnore
 	private String fecExpira;
 	private String fecRegistro;
+	@JsonIgnore
 	private Integer segExpira;
-	
+	@JsonIgnore
+	private String estadoAtencion;
+	private String estadoViaje;
+	private String olvido;
+
 	public Conductor() {
 		this.codigo = new Integer(0);
 		this.estado = new Integer(0);
@@ -221,6 +229,32 @@ public class Conductor {
 	 */
 	public void setNumDoc(String numDoc) {
 		this.numDoc = numDoc;
+	}
+
+	
+	public String getEstadoAtencion() {
+		return estadoAtencion;
+	}
+
+	public void setEstadoAtencion(String estadoAtencion) {
+		this.estadoAtencion = estadoAtencion;
+	}
+
+	public String getEstadoViaje() {
+		return estadoViaje;
+	}
+
+	public void setEstadoViaje(String estadoViaje) {
+		this.estadoViaje = estadoViaje;
+	}
+	
+
+	public String getOlvido() {
+		return olvido;
+	}
+
+	public void setOlvido(String olvido) {
+		this.olvido = olvido;
 	}
 
 	/* (non-Javadoc)

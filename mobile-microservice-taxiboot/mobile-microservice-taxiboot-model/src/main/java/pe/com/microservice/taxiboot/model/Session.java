@@ -1,5 +1,7 @@
 package pe.com.microservice.taxiboot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Session {
 
 	private Integer codigo;
@@ -18,15 +20,25 @@ public class Session {
 	private String telefono;
 	
 	private Integer estado;
+	@JsonIgnore
 	private String fecExpira;
 	private String fecRegistro;
+	@JsonIgnore
 	private String fecModifica;
+
+	@JsonIgnore
+	private String estadoAtencion;
+	private String estadoViaje;
 	
 	public Session() {
 		this.codigo = new Integer(0);
 		this.estado = new Integer(0);
+		this.estadoAtencion = "D";
 	}
 
+	public Session(String token) {
+		this.token = token;
+	}
 	/**
 	 * @return the codigo
 	 */
@@ -235,6 +247,23 @@ public class Session {
 	 */
 	public void setFecModifica(String fecModifica) {
 		this.fecModifica = fecModifica;
+	}
+	
+
+	public String getEstadoAtencion() {
+		return estadoAtencion;
+	}
+
+	public void setEstadoAtencion(String estadoAtencion) {
+		this.estadoAtencion = estadoAtencion;
+	}
+
+	public String getEstadoViaje() {
+		return estadoViaje;
+	}
+
+	public void setEstadoViaje(String estadoViaje) {
+		this.estadoViaje = estadoViaje;
 	}
 
 	/* (non-Javadoc)

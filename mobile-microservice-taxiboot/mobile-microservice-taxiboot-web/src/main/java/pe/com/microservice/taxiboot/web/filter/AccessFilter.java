@@ -99,7 +99,7 @@ public class AccessFilter implements Filter {
 					session = sessionService.getSessionByToken(tokenId);
 					if (session != null) {
 						logger.info("session not null");
-
+/*
 							if (!isValidSession(session)) {
 								logger.info(ErrorCodesEnum.ERR_SESSION_EXPIRED.getMessage());
 								handleError(ErrorCodesEnum.ERR_SESSION_EXPIRED.getCode(),
@@ -109,6 +109,11 @@ public class AccessFilter implements Filter {
 								MDC.put("sessionId", tokenId);
 								chain.doFilter(request, response);
 							}
+	*/
+						logger.info("VALID_SESSION_OK");
+						MDC.put("sessionId", tokenId);
+						chain.doFilter(request, response);
+						
 					} else {
 						logger.info(ErrorCodesEnum.ERR_INVALID_TOKEN.getMessage());
 						handleError(ErrorCodesEnum.ERR_INVALID_TOKEN.getCode(),

@@ -43,7 +43,7 @@ public class ConductorRepositoryImpl implements ConductorRepository {
 	public void insertConductor(Conductor conductor) throws Exception {
 	
 		StringBuilder sql_insert_user = new StringBuilder();
-		sql_insert_user.append("INSERT INTO TBL_CONDUCTOR ");
+		sql_insert_user.append("INSERT INTO tbl_conductor ");
 		sql_insert_user.append("(DEVICE,DEVICETYPE,NOMBRE,APELLIDO,EMAIL,PASSWORD,TIPDOC,NUMDOC, ");
 		sql_insert_user.append("PAIS,TELEFONO,FEC_REGISTRO,ESTADO) ");
 		sql_insert_user.append("VALUES (?,?,?,?,?,?,?,?,?,?,?,?) ");
@@ -71,9 +71,9 @@ public class ConductorRepositoryImpl implements ConductorRepository {
 		Conductor bean = null;
 		StringBuilder sql_find_user = new StringBuilder();
 		sql_find_user.append("SELECT CODIGO, DEVICE, DEVICETYPE, NOMBRE, APELLIDO, EMAIL, ");
-		sql_find_user.append("TIPDOC, NUMDOC, PAIS, TELEFONO, ESTADO, "); 
-		sql_find_user.append("DATE_FORMAT(FEC_REGISTRO,'%d/%m/%Y %H:%i:%s') FEC_REG  ");
-  		sql_find_user.append("FROM TBL_CONDUCTOR WHERE EMAIL=? AND PASSWORD=? AND ESTADO=? ");
+		sql_find_user.append("TIPDOC, NUMDOC, PAIS, TELEFONO, ESTADO,  "); 
+		sql_find_user.append("DATE_FORMAT(FEC_REGISTRO,'%d/%m/%Y %H:%i:%s') FEC_REG, ESTATENCION, ESTVIAJE  ");
+  		sql_find_user.append("FROM tbl_conductor WHERE EMAIL=? AND PASSWORD=? AND ESTADO=? ");
 
   		Object[] params = new Object[] {
   		conductor.getEmail(), conductor.getPassword(), conductor.getEstado()
@@ -87,5 +87,149 @@ public class ConductorRepositoryImpl implements ConductorRepository {
 		return bean;	
 	}
 
+
+	@Override
+	public Conductor getConductorByEmail(Conductor conductor) throws Exception {
+		List <Conductor> lista = null;
+		Conductor bean = null;
+		StringBuilder sql_find_user = new StringBuilder();
+		sql_find_user.append("SELECT CODIGO, DEVICE, DEVICETYPE, NOMBRE, APELLIDO, EMAIL, ");
+		sql_find_user.append("TIPDOC, NUMDOC, PAIS, TELEFONO, ESTADO,  "); 
+		sql_find_user.append("DATE_FORMAT(FEC_REGISTRO,'%d/%m/%Y %H:%i:%s') FEC_REG, ESTATENCION, ESTVIAJE  ");
+  		sql_find_user.append("FROM tbl_conductor WHERE EMAIL=? ");
+  		
+  		Object[] params = new Object[] {
+  		conductor.getEmail()
+		};
+    	lista = (List <Conductor> )jdbcTemplate.query(sql_find_user.toString(),params, new ConductorMapper());        	
+    	if(lista!=null && lista.size()>0){
+    		bean = new Conductor();
+    		bean = lista.get(0);
+    	}
+
+		return bean;	
+	}
+
+	
+	@Override
+	public void updEstAtencionConductor(Conductor conductor) throws Exception {
+	
+		StringBuilder sql_insert_user = new StringBuilder();
+		sql_insert_user.append("UPDATE tbl_conductor SET ESTATENCION=?" );
+		sql_insert_user.append("WHERE EMAIL=? ");
+		logger.info("updateEstadoSession");			        
+		Object[] params = new Object[] {
+				conductor.getEstadoAtencion(),conductor.getEmail()
+		};
+		jdbcTemplate.update(sql_insert_user.toString(), params);
+		logger.info("fin updateEstadoSession");
+					
+	}
+
+	@Override
+	public void updEstViajeConductor(Conductor conductor) throws Exception {
+	
+		StringBuilder sql_insert_user = new StringBuilder();
+		sql_insert_user.append("UPDATE tbl_conductor SET ESTVIAJE=? ");
+		sql_insert_user.append("WHERE EMAIL=? ");
+		logger.info("updateEstadoSession");			        
+		Object[] params = new Object[] {
+				conductor.getEstadoViaje(),conductor.getEmail()
+		};
+		jdbcTemplate.update(sql_insert_user.toString(), params);
+		logger.info("fin updateEstadoSession");
+					
+	}
+
+
+	@Override
+	public void deleteConductor(Conductor conductor) throws Exception {
+	
+		StringBuilder sql_insert_user = new StringBuilder();
+		sql_insert_user.append("DELETE FROM tbl_conductor ");
+		sql_insert_user.append("WHERE DEVICE=? AND DEVICETYPE=? AND TELEFONO=? ");
+		logger.info("deleteCon");
+		
+		Object[] params = new Object[] {
+		conductor.getDevice(), conductor.getDeviceType(), conductor.getTelefono()
+		};
+		jdbcTemplate.update(sql_insert_user.toString(), params);
+		logger.info("fin delCon");
+				
+	}
+
+	
+	
+	@Override
+	public void upddateConductor(Conductor conductor, String email) throws Exception {
+	
+		StringBuilder sql_insert_user = new StringBuilder();
+		/*
+		*/
+		sql_insert_user.append("UPDATE tbl_conductor SET NOMBRE=IFNULL(?,NOMBRE), ");
+		sql_insert_user.append("APELLIDO=IFNULL(?,APELLIDO), EMAIL=IFNULL(?,EMAIL) ");
+		sql_insert_user.append("WHERE EMAIL=? ");
+		/*
+		sql_insert_user.append("UPDATE tbl_conductor SET FEC_MODIFICA=now() ");
+		if(conductor.getNombre()!=null && !conductor.getNombre().isEmpty())
+		sql_insert_user.append(", NOMBRE=? ");
+		if(conductor.getApellido()!=null && !conductor.getApellido().isEmpty())
+		sql_insert_user.append(", APELLIDO=? ");
+		if(conductor.getEmail()!=null && !conductor.getEmail().isEmpty())
+		sql_insert_user.append(", EMAIL=? ");
+		sql_insert_user.append(" WHERE EMAIL=? ");
+	*/
+
+		logger.info("sql upddateConductor."+sql_insert_user);
+
+		Object[] params = new Object[] { conductor.getNombre(), conductor.getApellido(), conductor.getEmail(), email	};
+		jdbcTemplate.update(sql_insert_user.toString(), params);
+		logger.info("fin upddateConductor");
+					
+	}
+
+	
+	@Override
+	public void upddateOlvidoConductor(Conductor conductor, String sms) throws Exception {
+	
+		StringBuilder sql_insert_user = new StringBuilder();
+		sql_insert_user.append("UPDATE tbl_conductor SET OLVIDO=? ");
+		sql_insert_user.append("WHERE EMAIL=? ");
+		
+		logger.info("sql upddateOlvidoConductor."+sql_insert_user);
+
+		Object[] params = new Object[] { sms, conductor.getEmail() };
+		jdbcTemplate.update(sql_insert_user.toString(), params);
+		logger.info("fin upddateOlvidoConductor");
+					
+	}
+
+	@Override
+	public List <Conductor> validaCodeEmail(Conductor conductor)  throws Exception {
+		List <Conductor> lista = null;
+		StringBuilder sql_find_user = new StringBuilder();
+		sql_find_user.append("SELECT CODIGO, DEVICE, DEVICETYPE, NOMBRE, APELLIDO, EMAIL ");
+  		sql_find_user.append("FROM tbl_conductor WHERE EMAIL=? AND OLVIDO=?");
+
+  		Object[] params = new Object[] { conductor.getEmail(), conductor.getOlvido() };
+    	lista = (List <Conductor> )jdbcTemplate.query(sql_find_user.toString(),params, new ConductorMapper());        	
+
+    	return lista;
+	}
+
+	@Override
+	public void upddateClaveConductor(Conductor conductor) throws Exception {
+	
+		StringBuilder sql_insert_user = new StringBuilder();
+		sql_insert_user.append("UPDATE tbl_conductor SET PASSWORD=? ");
+		sql_insert_user.append("WHERE EMAIL=? ");
+		
+		logger.info("sql upddateClaveConductor."+sql_insert_user);
+		
+		Object[] params = new Object[] { conductor.getPassword(), conductor.getEmail() };
+		jdbcTemplate.update(sql_insert_user.toString(), params);
+		logger.info("fin upddateClaveConductor");
+					
+	}
 
 }

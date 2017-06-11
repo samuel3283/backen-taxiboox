@@ -11,5 +11,6 @@ public interface EquipoRepository {
 	Equipo getEquipoxTelefono(Equipo equipo) throws Exception;
 	void updateValidaEquipo(Equipo equipo) throws Exception;
 	void updateNewSmsEquipo(Equipo equipo) throws Exception;
+	void deleteEquipo(Equipo equipo) throws Exception;
 	
 }

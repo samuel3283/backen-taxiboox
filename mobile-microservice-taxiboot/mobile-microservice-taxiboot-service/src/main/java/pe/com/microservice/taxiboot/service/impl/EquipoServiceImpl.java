@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import pe.com.microservice.taxiboot.dao.EquipoRepository;
 import pe.com.microservice.taxiboot.model.Equipo;
 import pe.com.microservice.taxiboot.service.EquipoService;
+import pe.com.microservice.taxiboot.service.util.Util;
 
 @Service
 public class EquipoServiceImpl implements EquipoService {
@@ -24,7 +25,7 @@ public class EquipoServiceImpl implements EquipoService {
 	public String ingresarEquipo(Equipo equipo)  throws Exception {
 
 		int numeroAleatorio = (int) (Math.random()*999998+1);		
-		String sms = completar(numeroAleatorio);
+		String sms = Util.completar(numeroAleatorio);
 		equipo.setSegExpira(120);
 		equipo.setSms(sms);
 		logger.info("ingresar:"+equipo.toString());
@@ -74,7 +75,7 @@ public class EquipoServiceImpl implements EquipoService {
 			throw new Exception("Error not found");
 		
 		int numeroAleatorio = (int) (Math.random()*999998+1);		
-		String sms = completar(numeroAleatorio);
+		String sms = Util.completar(numeroAleatorio);
 		equipo.setSms(sms);
 		
 		equipoRepository.updateNewSmsEquipo(equipo);
@@ -88,15 +89,10 @@ public class EquipoServiceImpl implements EquipoService {
 		equipoRepository.insertEquipo(equipo);
 	}
 	
-	public String completar(int numero) {
-		
-		String valor = String.valueOf(numero);
-		if(valor.length()==1)	valor = "00000".concat(valor);
-		else if(valor.length()==2)	valor = "0000".concat(valor);
-		else if(valor.length()==3)	valor = "000".concat(valor);
-		else if(valor.length()==4)	valor = "00".concat(valor);
-		else if(valor.length()==5)	valor = "0".concat(valor);
-		return valor;
+	@Override
+	public void deleteEquipo(Equipo equipo)  throws Exception {
+		equipoRepository.deleteEquipo(equipo);
 	}
-	
+
+
 }

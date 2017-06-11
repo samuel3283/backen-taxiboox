@@ -26,6 +26,8 @@ public class ConductorMapper implements RowMapper<Conductor> {
 			bean.setTelefono(rs.getString(10));
 			bean.setEstado(rs.getInt(11));
 			bean.setFecRegistro(rs.getString(12));			
+			bean.setEstadoAtencion(rs.getString(13));			
+			bean.setEstadoViaje(rs.getString(14));			
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -32,6 +32,8 @@ public class SessionMapper implements RowMapper<Session> {
 			bean.setFecRegistro(rs.getString(14));
 			bean.setFecModifica(rs.getString(15));
 
+			bean.setEstadoAtencion(rs.getString(16));
+			bean.setEstadoViaje(rs.getString(17));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}				

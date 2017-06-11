@@ -36,11 +36,17 @@ public class InitApplication extends SpringBootServletInitializer implements
 	
 	@Bean
 	public DriverManagerDataSource dataSource() {
+		
 		DriverManagerDataSource datasource = new DriverManagerDataSource();
 		String url = "jdbc:mysql://192.69.210.154:3306/booxagen_repository";
 		datasource.setDriverClassName("com.mysql.jdbc.Driver");
 		datasource.setUsername("booxagen_admin");
 		datasource.setPassword("1qa2ws3ed");
+		/*	
+		url = "jdbc:mysql://localhost:3306/booxagen_repository";
+		datasource.setUsername("root");
+		datasource.setPassword("1235789");
+		*/
 		datasource.setUrl(url);
 		return datasource;
 	}
