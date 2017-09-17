@@ -12,5 +12,10 @@
   		<artifactId>mobile-microservice-taxiboot-model</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
+  	<dependency>
+  		<groupId>pe.com.microservice.taxiboot</groupId>
+  		<artifactId>mobile-microservice-taxiboot-core</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
   </dependencies>
 </project>

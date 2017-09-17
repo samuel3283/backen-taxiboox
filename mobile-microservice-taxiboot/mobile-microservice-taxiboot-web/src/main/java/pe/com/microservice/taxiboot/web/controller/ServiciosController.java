@@ -8,10 +8,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,6 +46,9 @@ public class ServiciosController {
 
 	private final Logger logger = LoggerFactory
 			.getLogger(ServiciosController.class);
+
+	@Autowired
+	private Environment env;
 
 	@Autowired
 	private ServicioService servicioService;
@@ -126,16 +133,18 @@ public class ServiciosController {
 		byte[] imagen = null;
 
 		try {
-			String pathImg = "C:"+File.separator+"Apps"+File.separator+"taxiboox"+File.separator+request.getFoto();
-			pathImg = "/appservers/apache-tomcat-8x/taxiboox"+File.separator+request.getFoto();
+			String path = env.getProperty("path.user.dir");
+			String pathImgPasajero = path + File.separator + "pasajero";
+			String pathImg = pathImgPasajero + File.separator + request.getFoto();
 			
 			logger.info("Obteniendo imágenes."+pathImg);
 			//String pathImg = "C:/Apps/taxiboox/pasajero/"request.getFoto();
 			if (pathImg != null && !pathImg.isEmpty()) {
-				Path path = Paths.get(pathImg);
-				in = Files.newInputStream(path);
+				Path ruta = Paths.get(pathImg);
+				in = Files.newInputStream(ruta);
 				imagen = IOUtils.toByteArray(in);
 			}
+			
 		} catch (Exception e) {
 			logger.error("Error obteniendo imágenes", e.getMessage());
 		} finally {

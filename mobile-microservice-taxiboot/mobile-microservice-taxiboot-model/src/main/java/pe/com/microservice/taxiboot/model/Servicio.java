@@ -32,7 +32,11 @@ public class Servicio {
 	private Integer codigoPasajero;
 	@JsonInclude(Include.NON_NULL)
 	private String fecRegistro;
-
+	@JsonInclude(Include.NON_NULL)
+	private String fecServicio;
+	@JsonInclude(Include.NON_NULL)
+	private String fecServicioFormateada;
+	
 	@JsonIgnore
 	private String fecModifica;
 	@JsonInclude(Include.NON_NULL)
@@ -44,6 +48,8 @@ public class Servicio {
 	private String precio;
 	@JsonInclude(Include.NON_NULL)
 	private String valoracion;
+	@JsonInclude(Include.NON_NULL)
+	private String comentario;
 
 	
 	public Servicio() {
@@ -189,6 +195,36 @@ public class Servicio {
 		this.estadoServicio = estadoServicio;
 	}
 
+	
+	public String getComentario() {
+		return comentario;
+	}
+
+	public void setComentario(String comentario) {
+		this.comentario = comentario;
+	}
+
+
+	public String getFecServicio() {
+		return fecServicio;
+	}
+
+
+	public void setFecServicio(String fecServicio) {
+		this.fecServicio = fecServicio;
+	}
+
+
+	public String getFecServicioFormateada() {
+		return fecServicioFormateada;
+	}
+
+
+	public void setFecServicioFormateada(String fecServicioFormateada) {
+		this.fecServicioFormateada = fecServicioFormateada;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Servicio [codigo=" + codigo + ", direccionOrigen=" + direccionOrigen + ", latitudOrigen="
@@ -196,8 +232,10 @@ public class Servicio {
 				+ ", latitudDestino=" + latitudDestino + ", longitudDestino=" + longitudDestino + ", placaVehiculo="
 				+ placaVehiculo + ", codigoConductor=" + codigoConductor + ", codigoPasajero=" + codigoPasajero
 				+ ", fecRegistro=" + fecRegistro + ", fecModifica=" + fecModifica + ", estadoServicio=" + estadoServicio
-				+ "]";
+				+ ", pasajero=" + pasajero + ", precio=" + precio + ", valoracion=" + valoracion + ", comentario="
+				+ comentario + "]";
 	}
+
 	
 	
 	

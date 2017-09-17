@@ -52,7 +52,7 @@ public class ParametroRepositoryImpl implements ParametroRepository {
 		List <Parametro> lista = null;
 
 		StringBuilder sql_find_user = new StringBuilder();
-		sql_find_user.append("select cod,val from tbl_parametros ");
+		sql_find_user.append("select cod,val,val_abre from tbl_parametros ");
 		sql_find_user.append("where tipo=? and estado=1 order by codigo ");
 		
 		logger.info("data"+sql_find_user);
@@ -64,6 +64,30 @@ public class ParametroRepositoryImpl implements ParametroRepository {
     	
 
 		return lista;	
+	}
+
+	@Override
+	public Parametro getParametro(String tipo) throws Exception {
+		List<Parametro> lista = null;
+		Parametro bean = null;
+		
+		StringBuilder sql_find_user = new StringBuilder();
+		sql_find_user.append("select cod,val,val_abre from tbl_parametros ");
+		sql_find_user.append("where tipo=? and estado=1 ");
+		
+		logger.info("data"+sql_find_user);
+  		
+  		Object[] params = new Object[] { tipo };
+		
+    	lista = (List <Parametro> )jdbcTemplate.query(sql_find_user.toString(),params, new ParametroMapper());        	
+  		logger.info("size.::"+lista.size());
+
+  		if(lista!=null && lista.size()>0){
+    		bean = new Parametro();
+    		bean = lista.get(0);
+    	}
+  		
+		return bean;	
 	}
 
 }

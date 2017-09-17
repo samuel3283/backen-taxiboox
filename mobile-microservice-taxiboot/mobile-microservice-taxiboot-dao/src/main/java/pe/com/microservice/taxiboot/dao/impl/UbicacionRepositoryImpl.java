@@ -46,16 +46,16 @@ public class UbicacionRepositoryImpl implements UbicacionRepository {
 	
 		StringBuilder sql_insert_user = new StringBuilder();
 		sql_insert_user.append("INSERT INTO tbl_ubicaciones ");
-		sql_insert_user.append("(LATITUD,LONGITUD,ALTURA,VELOCIDAD,APROXIMACION, ");
+		sql_insert_user.append("(ORIGEN,LATITUD,LONGITUD,ALTURA,VELOCIDAD,APROXIMACION, ");
 		sql_insert_user.append("CODCONDUCTOR,PLACAVEHICULO,FEC_REGISTRO) ");
-		sql_insert_user.append("VALUES (?,?,?,?,?,?,?,?) ");
+		sql_insert_user.append("VALUES (?,?,?,?,?,?,?,?,?) ");
 		logger.info("insertUbicacion");
 		
 		java.util.Date dt = new java.util.Date();
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String fechaHora = sdf.format(dt);
                 
-		Object[] params = new Object[] {
+		Object[] params = new Object[] { ubicacion.getOrigen(),
 				ubicacion.getLatitud(), ubicacion.getLongitud(), ubicacion.getAltura(), ubicacion.getVelocidad(),
 				ubicacion.getAproximacion(),ubicacion.getCodigoConductor(),ubicacion.getPlaca(), fechaHora
 		};

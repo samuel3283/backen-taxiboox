@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pe.com.microservice.taxiboot.dao.ConductorRepository;
+import pe.com.microservice.taxiboot.dao.ParametroRepository;
 import pe.com.microservice.taxiboot.dao.SessionRepository;
 import pe.com.microservice.taxiboot.model.Conductor;
 import pe.com.microservice.taxiboot.model.Equipo;
+import pe.com.microservice.taxiboot.model.Parametro;
 import pe.com.microservice.taxiboot.model.Session;
 import pe.com.microservice.taxiboot.service.SessionService;
 import pe.com.microservice.taxiboot.service.util.StringEncrypt;
@@ -28,6 +30,9 @@ public class SessionServiceImpl implements SessionService {
 	@Autowired
 	private SessionRepository sessionRepository;
 	
+	@Autowired
+	private ParametroRepository parametroRepository;
+
 	@Override
 	public Session validaSession(Conductor conductor) throws Exception {
 		
@@ -44,6 +49,13 @@ public class SessionServiceImpl implements SessionService {
 		if(cuenta==null)
 			throw new Exception("Error Cuenta not found");
 		
+		sessionRepository.deleteSessionOtherById(cuenta);
+		
+		Parametro parametro = parametroRepository.getParametro("FECCARGA");
+		if(parametro!=null)
+			cuenta.setFechaCarga(parametro.getDescripcion());
+		
+		cuenta.setIdConductor(bean.getIdConductor());
 		logger.info("geSession:"+cuenta.toString());
 		
 		return cuenta;
@@ -68,11 +80,13 @@ public class SessionServiceImpl implements SessionService {
 		Session session = new Session();
 		session.setToken(token);
 		logger.info("getSessionByToken.."+token);
-		/*
+		
+		
 		Session bean = sessionRepository.getSessionByToken(session);
-		if(bean==null)
-			throw new Exception("Error Session not found");
-		*/
+		if(bean!=null) {
+			sessionRepository.deleteSessionByEmail(bean);
+		}
+		
 		sessionRepository.deleteSession(session);
 	}
 	
@@ -179,17 +193,23 @@ public class SessionServiceImpl implements SessionService {
 	
 	@Override
 	public void upddateClaveConductor(Conductor conductor)  throws Exception {
-	
+		
 		if(conductor.getEmail()==null || conductor.getEmail().isEmpty())
-			throw new Exception("Error datos invallidos");
+			throw new Exception("Error Email inválido");
 		
 		if(conductor.getPassword()==null || conductor.getPassword().isEmpty() || conductor.getPassword().length()<4)
-			throw new Exception("Error datos invallidos");
+			throw new Exception("Error Password inválido");
 
+		List<Conductor> lista = conductorRepository.validaCodeEmail(conductor);
+		
+    	if(lista==null || lista.size() <=0)
+    		throw new Exception("Error codigo enviado no válido");
+
+		
 		Conductor beanConductor = conductorRepository.getConductorByEmail(conductor);
 		
 		if(beanConductor==null)
-			throw new Exception("Error not found");
+			throw new Exception("Error Conductor no encontrado");
 		
 		conductorRepository.upddateClaveConductor(conductor);
 		

@@ -15,7 +15,8 @@ public class ParametroMapper implements RowMapper<Parametro> {
 		try{
 			bean.setCodigo(rs.getString(1));
 			bean.setDescripcion(rs.getString(2));
-
+			bean.setDescripcionAbreviada(rs.getString(3));
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}				

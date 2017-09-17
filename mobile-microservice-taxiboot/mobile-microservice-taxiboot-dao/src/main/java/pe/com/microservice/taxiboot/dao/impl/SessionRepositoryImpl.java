@@ -122,7 +122,40 @@ public class SessionRepositoryImpl implements SessionRepository {
 				
 	}
 
+	@Override
+	public void deleteSessionByEmail(Session session) throws Exception {
 	
+		StringBuilder sql_insert_user = new StringBuilder();
+		sql_insert_user.append("DELETE FROM tbl_session ");
+		sql_insert_user.append("WHERE EMAIL=? ");
+		logger.info("deleteSessionByEmail");
+			        
+		Object[] params = new Object[] {
+		session.getEmail()
+		};
+		logger.info("ini del");
+		jdbcTemplate.update(sql_insert_user.toString(), params);
+		logger.info("fin del");
+				
+	}
+
+	@Override
+	public void deleteSessionOtherById(Session session) throws Exception {
+	
+		StringBuilder sql_insert_user = new StringBuilder();
+		sql_insert_user.append("DELETE FROM tbl_session ");
+		sql_insert_user.append("WHERE EMAIL=? AND CODIGO!=? ");
+		logger.info("deleteSessionOtherById");
+			        
+		Object[] params = new Object[] {
+			session.getEmail(), session.getCodigo()
+		};
+		logger.info("ini del");
+		jdbcTemplate.update(sql_insert_user.toString(), params);
+		logger.info("fin del");
+				
+	}
+
 	@Override
 	public void updateEstadoAtencionSession(Session session) throws Exception {
 	

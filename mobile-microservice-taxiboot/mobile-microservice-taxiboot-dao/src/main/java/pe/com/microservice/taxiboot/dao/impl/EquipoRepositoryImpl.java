@@ -215,7 +215,32 @@ public class EquipoRepositoryImpl implements EquipoRepository {
 
 		return bean;	
 	}
-	
+
+	@Override
+	public Equipo getEquipoxPhone(Equipo equipo) throws Exception {
+		List <Equipo> lista = null;
+		Equipo bean = null;
+		StringBuilder sql_find_user = new StringBuilder();
+		sql_find_user.append("SELECT CODIGO, DEVICE, DEVICETYPE, PAIS, TELEFONO, SMS, ESTADO, "); 
+		sql_find_user.append("DATE_FORMAT(FEC_EXPIRA,'%d/%m/%Y %H:%i:%s') FEC_EXP, ");
+		sql_find_user.append("DATE_FORMAT(FEC_REGISTRO,'%d/%m/%Y %H:%i:%s') FEC_REG, ");
+		sql_find_user.append("DATE_FORMAT(FEC_MODIFICA,'%d/%m/%Y %H:%i:%s') FEC_MOD ");
+  		sql_find_user.append("FROM tbl_equipo WHERE TELEFONO=? ");
+  		//sql_find_user.append("AND DEVICE=? AND DEVICETYPE=? AND PAIS=? AND ESTADO=? ");
+		
+		Object[] params = new Object[] {
+		equipo.getTelefono()
+		//equipo.getDevice(), equipo.getDeviceType(), equipo.getPais(), equipo.getTelefono(), equipo.getEstado()
+		};
+    	lista = (List <Equipo> )jdbcTemplate.query(sql_find_user.toString(),params, new EquipoMapper());        	
+    	if(lista!=null && lista.size()>0){
+    		bean = new Equipo();
+    		bean = lista.get(0);
+    	}
+
+		return bean;	
+	}
+
 	@Override
 	public void updateValidaEquipo(Equipo equipo) throws Exception {
 		

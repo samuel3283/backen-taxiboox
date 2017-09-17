@@ -1,3 +1,16 @@
+pe\com\microservice\taxiboot\model\Paginado.class
 pe\com\microservice\taxiboot\model\BeanResponse.class
+pe\com\microservice\taxiboot\model\Session.class
+pe\com\microservice\taxiboot\model\Conductor.class
+pe\com\microservice\taxiboot\model\Vehiculo.class
+pe\com\microservice\taxiboot\model\Pasajero.class
+pe\com\microservice\taxiboot\model\HeaderRq.class
+pe\com\microservice\taxiboot\model\RespuestaSms.class
+pe\com\microservice\taxiboot\model\Response.class
+pe\com\microservice\taxiboot\model\Servicio.class
+pe\com\microservice\taxiboot\model\Parametro.class
 pe\com\microservice\taxiboot\model\Equipo.class
+pe\com\microservice\taxiboot\model\Mail.class
+pe\com\microservice\taxiboot\model\Ubicacion.class
 pe\com\microservice\taxiboot\model\TransactionRs.class
+pe\com\microservice\taxiboot\model\BeanRequest.class

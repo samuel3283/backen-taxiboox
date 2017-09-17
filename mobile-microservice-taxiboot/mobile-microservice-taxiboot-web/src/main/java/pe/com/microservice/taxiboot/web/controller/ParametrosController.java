@@ -1,6 +1,7 @@
 package pe.com.microservice.taxiboot.web.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,6 +88,27 @@ public class ParametrosController {
 		return response;
 	}
 
-
+	@RequestMapping(value ="/service/listAll", 
+			method = RequestMethod.POST, produces = { "application/json" })
+	@ResponseBody
+	public TransactionRs<Map<String, List<Parametro>>> listAll(
+			@RequestHeader HttpHeaders headers) {
+		
+		logger.info("listEstadosServicios....");
+		TransactionRs<Map<String, List<Parametro>>> response = new TransactionRs<Map<String, List<Parametro>>>();
+		
+		try {
+			HeaderRq headerRq = headerRqUtil.getHttpHeader(headers);
+			response.setRespuesta(parametroService.listAll());
+			
+		} catch (Exception e) {
+			logger.error("Error listEstadosServicios. ", e.getMessage());
+			response.setCodigoError("5000");
+			response.setDescripcion("Error interno");
+		}
+		
+		return response;
+	}
+	 
 	
 }

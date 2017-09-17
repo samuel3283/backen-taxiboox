@@ -1,6 +1,8 @@
 package pe.com.microservice.taxiboot.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 public class Conductor {
 
@@ -11,7 +13,10 @@ public class Conductor {
 	private String nombre;
 	private String apellido;
 	private String email;
+	@JsonInclude(Include.NON_NULL)
 	private String password;
+	@JsonInclude(Include.NON_NULL)
+	private Integer idConductor;
 
 	private String tipoDoc;
 	private String numDoc;
@@ -19,15 +24,18 @@ public class Conductor {
 	private String pais;
 	private String telefono;
 	
+	@JsonIgnore
 	private Integer estado;
 	@JsonIgnore
 	private String fecExpira;
 	private String fecRegistro;
 	@JsonIgnore
 	private Integer segExpira;
-	@JsonIgnore
+	@JsonInclude(Include.NON_NULL)
 	private String estadoAtencion;
+	@JsonInclude(Include.NON_NULL)
 	private String estadoViaje;
+	@JsonInclude(Include.NON_NULL)
 	private String olvido;
 
 	public Conductor() {
@@ -257,15 +265,22 @@ public class Conductor {
 		this.olvido = olvido;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
+	public Integer getIdConductor() {
+		return idConductor;
+	}
+
+	public void setIdConductor(Integer idConductor) {
+		this.idConductor = idConductor;
+	}
+
 	@Override
 	public String toString() {
 		return "Conductor [codigo=" + codigo + ", device=" + device + ", deviceType=" + deviceType + ", nombre="
-				+ nombre + ", apellido=" + apellido + ", email=" + email + ", password=" + password + ", tipoDoc="
-				+ tipoDoc + ", numDoc=" + numDoc + ", pais=" + pais + ", telefono=" + telefono + ", estado=" + estado
-				+ ", fecExpira=" + fecExpira + ", fecRegistro=" + fecRegistro + ", segExpira=" + segExpira + "]";
+				+ nombre + ", apellido=" + apellido + ", email=" + email + ", password=" + password + ", idConductor="
+				+ idConductor + ", tipoDoc=" + tipoDoc + ", numDoc=" + numDoc + ", pais=" + pais + ", telefono="
+				+ telefono + ", estado=" + estado + ", fecExpira=" + fecExpira + ", fecRegistro=" + fecRegistro
+				+ ", segExpira=" + segExpira + ", estadoAtencion=" + estadoAtencion + ", estadoViaje=" + estadoViaje
+				+ ", olvido=" + olvido + "]";
 	}
 	
 

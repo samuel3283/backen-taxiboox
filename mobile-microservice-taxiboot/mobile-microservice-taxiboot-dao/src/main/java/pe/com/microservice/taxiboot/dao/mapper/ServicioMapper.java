@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 
-import pe.com.microservice.taxiboot.model.Equipo;
+import pe.com.microservice.taxiboot.core.util.Util;
 import pe.com.microservice.taxiboot.model.Pasajero;
 import pe.com.microservice.taxiboot.model.Servicio;
 
@@ -45,7 +45,15 @@ public class ServicioMapper implements RowMapper<Servicio> {
 
 			bean.setPasajero(p);
 			
-		
+			bean.setComentario(rs.getString(19));
+			bean.setFecServicio(rs.getString(20));
+			try {
+				String fecha = Util.getDateToFormat(bean.getFecServicio(), Util.PATTERN_DD_MM_YY_HH_MI_SS, Util.PATTERN_DD_MM_YY_HH_MI_A);
+				bean.setFecServicioFormateada(fecha);
+			} catch (Exception e) {
+				bean.setFecServicioFormateada(null);
+				System.out.println("Error convert."+e.getMessage());
+			}				
 			
 		} catch (Exception e) {
 			e.printStackTrace();

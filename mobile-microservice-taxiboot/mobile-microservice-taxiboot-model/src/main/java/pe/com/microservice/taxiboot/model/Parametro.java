@@ -4,6 +4,7 @@ public class Parametro {
 
 	private String codigo;
 	private String descripcion;
+	private String descripcionAbreviada;
 	
 	
 	public Parametro() {
@@ -27,6 +28,13 @@ public class Parametro {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
+	public String getDescripcionAbreviada() {
+		return descripcionAbreviada;
+	}
+	public void setDescripcionAbreviada(String descripcionAbreviada) {
+		this.descripcionAbreviada = descripcionAbreviada;
+	}
+
 	
 	
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Session {
 
 	private Integer codigo;
+	private Integer idConductor;
 	private String device;
 	private String deviceType;
 	private String token;
@@ -29,7 +30,9 @@ public class Session {
 	@JsonIgnore
 	private String estadoAtencion;
 	private String estadoViaje;
-	
+
+	private String fechaCarga;
+
 	public Session() {
 		this.codigo = new Integer(0);
 		this.estado = new Integer(0);
@@ -266,16 +269,33 @@ public class Session {
 		this.estadoViaje = estadoViaje;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
+	
+	public String getFechaCarga() {
+		return fechaCarga;
+	}
+
+	public void setFechaCarga(String fechaCarga) {
+		this.fechaCarga = fechaCarga;
+	}
+
+	public Integer getIdConductor() {
+		return idConductor;
+	}
+
+	public void setIdConductor(Integer idConductor) {
+		this.idConductor = idConductor;
+	}
+
 	@Override
 	public String toString() {
 		return "Session [codigo=" + codigo + ", device=" + device + ", deviceType=" + deviceType + ", token=" + token
 				+ ", nombre=" + nombre + ", apellido=" + apellido + ", email=" + email + ", tipoDoc=" + tipoDoc
 				+ ", numDoc=" + numDoc + ", pais=" + pais + ", telefono=" + telefono + ", estado=" + estado
-				+ ", fecExpira=" + fecExpira + ", fecRegistro=" + fecRegistro + ", fecModifica=" + fecModifica + "]";
+				+ ", fecExpira=" + fecExpira + ", fecRegistro=" + fecRegistro + ", fecModifica=" + fecModifica
+				+ ", estadoAtencion=" + estadoAtencion + ", estadoViaje=" + estadoViaje + ", fechaCarga=" + fechaCarga
+				+ "]";
 	}
-	
+
+
 	
 }

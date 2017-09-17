@@ -9,6 +9,7 @@ public interface EquipoRepository {
 	Equipo getEquipo(Equipo equipo) throws Exception;
 	Equipo getEquipoxSms(Equipo equipo) throws Exception;
 	Equipo getEquipoxTelefono(Equipo equipo) throws Exception;
+	Equipo getEquipoxPhone(Equipo equipo) throws Exception;
 	void updateValidaEquipo(Equipo equipo) throws Exception;
 	void updateNewSmsEquipo(Equipo equipo) throws Exception;
 	void deleteEquipo(Equipo equipo) throws Exception;

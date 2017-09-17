@@ -1,11 +1,16 @@
 package pe.com.microservice.taxiboot.web.config;
 
+import java.util.Properties;
+
 import javax.servlet.Filter;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -14,12 +19,34 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import com.planetj.servlet.filter.compression.CompressingFilter;
 
 import pe.com.microservice.taxiboot.web.filter.AccessFilter;
+import pe.com.microservice.taxiboot.web.filter.LoggingFilter;
 
 
 @Configuration
-@ComponentScan({ "pe.com.microservice.taxiboot.web" })
+@ComponentScan({ "pe.com.microservice.taxiboot.*" })
 @EnableWebMvc
 public class WebAppConfig extends WebMvcConfigurerAdapter {
+
+    @Value("${mail.protocol}")  // this is to read variable from application.properties
+    private String mailProtocol;
+
+    @Value("${mail.smtp.host}")
+    private String host;
+
+    @Value("${mail.smtp.port}")
+    private Integer port;
+
+    @Value("${mail.support.username}")
+    private String userName;
+
+    @Value("${mail.support.password}")
+    private String password;
+
+    @Value("${mail.smtp.auth}")
+    private String smtpAuth;
+
+    @Value("${mail.debug}")
+    private String mailDebug;
 
 	/**
 	 * Método configureContentNegotiation
@@ -83,11 +110,43 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
  
 	}
 	
-	/**
 	@Bean(name = "loggingFilter")
  	public LoggingFilter loggingFilter() { 
 		return new LoggingFilter();
 	}
-	 */
+	
+    @Bean
+    public JavaMailSender javaMailSender() {
+        JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
+        
+        /*
+        mailProtocol="smtp";
+        host="localhost";
+        port=25;
+        userName="backend@bancamovil.local";
+        password="admin";
+         */
+        javaMailSender.setProtocol(mailProtocol);
+        javaMailSender.setHost(host);
+        javaMailSender.setPort(port);
+        javaMailSender.setUsername(userName);
+        javaMailSender.setPassword(password);
+        javaMailSender.setJavaMailProperties(getMailProperties());
+
+        return javaMailSender;
+    }
+
+    private Properties getMailProperties() {
+    	/*
+    	smtpAuth="true";
+    	mailDebug="true";
+    	 */
+    	Properties properties = new Properties();
+        properties.setProperty("mail.smtp.auth", smtpAuth);
+        properties.setProperty("mail.smtp.starttls.enable", "true");
+        properties.setProperty("mail.debug", mailDebug);
+        return properties;
+    }
+
 
 }

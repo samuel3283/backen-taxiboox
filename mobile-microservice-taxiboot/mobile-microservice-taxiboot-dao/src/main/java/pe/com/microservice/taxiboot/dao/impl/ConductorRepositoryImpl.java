@@ -110,6 +110,27 @@ public class ConductorRepositoryImpl implements ConductorRepository {
 		return bean;	
 	}
 
+	@Override
+	public Conductor getConductorByPhone(Conductor conductor) throws Exception {
+		List <Conductor> lista = null;
+		Conductor bean = null;
+		StringBuilder sql_find_user = new StringBuilder();
+		sql_find_user.append("SELECT CODIGO, DEVICE, DEVICETYPE, NOMBRE, APELLIDO, EMAIL, ");
+		sql_find_user.append("TIPDOC, NUMDOC, PAIS, TELEFONO, ESTADO,  "); 
+		sql_find_user.append("DATE_FORMAT(FEC_REGISTRO,'%d/%m/%Y %H:%i:%s') FEC_REG, ESTATENCION, ESTVIAJE  ");
+  		sql_find_user.append("FROM tbl_conductor WHERE TELEFONO=? ");
+  		
+  		Object[] params = new Object[] {
+  		conductor.getTelefono()
+		};
+    	lista = (List <Conductor> )jdbcTemplate.query(sql_find_user.toString(),params, new ConductorMapper());        	
+    	if(lista!=null && lista.size()>0){
+    		bean = new Conductor();
+    		bean = lista.get(0);
+    	}
+
+		return bean;	
+	}
 	
 	@Override
 	public void updEstAtencionConductor(Conductor conductor) throws Exception {

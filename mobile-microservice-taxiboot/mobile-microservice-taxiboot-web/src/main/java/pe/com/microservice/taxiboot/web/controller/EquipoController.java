@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 import pe.com.microservice.taxiboot.core.HeaderRqUtil;
 import pe.com.microservice.taxiboot.dao.EquipoRepository;
 import pe.com.microservice.taxiboot.model.BeanResponse;
+import pe.com.microservice.taxiboot.model.Conductor;
 import pe.com.microservice.taxiboot.model.Equipo;
 import pe.com.microservice.taxiboot.model.HeaderRq;
+import pe.com.microservice.taxiboot.model.Response;
+import pe.com.microservice.taxiboot.model.RespuestaSms;
 import pe.com.microservice.taxiboot.model.TransactionRs;
 import pe.com.microservice.taxiboot.service.EquipoService;
 import pe.com.microservice.taxiboot.web.util.Constants;
@@ -36,7 +39,53 @@ public class EquipoController {
 	@RequestMapping(value ="/service/generaSms", 
 			method = RequestMethod.POST, produces = { "application/json" })
 	@ResponseBody
-	public TransactionRs<BeanResponse> generaSms(
+	public TransactionRs<Response> generaSms(
+			@RequestHeader HttpHeaders headers, @RequestBody Equipo request) {
+		
+		logger.info("generaSms....");
+		TransactionRs<Response> response = new TransactionRs<Response>();
+		
+		try {
+			HeaderRq headerRq = headerRqUtil.getHttpHeader(headers);
+			request.setDevice(headerRq.getDevice());
+			request.setDeviceType(headerRq.getDeviceType());
+			
+			Response respuesta = new Response();
+			
+			Conductor conductor = equipoService.getConductorByPhone(request);
+			
+			if(conductor==null) {
+				RespuestaSms code = new  RespuestaSms(equipoService.ingresarEquipo(request));
+				//respuesta.setValor(equipoService.ingresarEquipo(request));
+				respuesta.setCode(code);
+				response.setRespuesta(respuesta);			
+			} else {
+				System.out.println("getConductorByPhone");
+				Equipo equipo = equipoService.getEquipoxPhone(request);
+				respuesta.setValor(null);
+				respuesta.setEquipo(equipo);
+				respuesta.setConductor(conductor);
+				response.setRespuesta(respuesta);
+				response.setCodigoError("0001");
+				response.setDescripcion("Usuario conductor ya se encuentra registrado");
+
+			}
+
+			
+		} catch (Exception e) {
+			System.out.println("...Error generaSms. "+ e.getMessage());
+			logger.error("Error generaSms. ", e.getMessage());
+			response.setCodigoError("5000");
+			response.setDescripcion("Error interno");
+		}
+		
+		return response;
+	}
+
+	@RequestMapping(value ="/service/generaSmsV2", 
+			method = RequestMethod.POST, produces = { "application/json" })
+	@ResponseBody
+	public TransactionRs<BeanResponse> generaSmsV2(
 			@RequestHeader HttpHeaders headers, @RequestBody Equipo request) {
 		
 		logger.info("generaSms....");
@@ -59,7 +108,6 @@ public class EquipoController {
 		
 		return response;
 	}
-
 
 	@RequestMapping(value ="/service/reenviarSms", 
 			method = RequestMethod.POST, produces = { "application/json" })

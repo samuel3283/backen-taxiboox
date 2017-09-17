@@ -10,5 +10,7 @@ public interface SessionRepository {
 	void updateEstadoAtencionSession(Session session) throws Exception;
 	void updateEstadoViajeSession(Session session) throws Exception;
 	void updateDatosSession(Session session) throws Exception;
+	void deleteSessionByEmail(Session session) throws Exception;
+	void deleteSessionOtherById(Session session) throws Exception;
 	
 }

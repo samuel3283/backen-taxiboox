@@ -13,6 +13,7 @@ public class ConductorMapper implements RowMapper<Conductor> {
 		Conductor bean = new Conductor();
 		try{
 			bean.setCodigo(rs.getInt(1));
+			bean.setIdConductor(rs.getInt(1));
 			bean.setDevice(rs.getString(2));
 			bean.setDeviceType(rs.getString(3));
 			

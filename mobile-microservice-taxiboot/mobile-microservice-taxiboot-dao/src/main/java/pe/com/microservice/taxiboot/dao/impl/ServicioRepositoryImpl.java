@@ -53,10 +53,11 @@ public class ServicioRepositoryImpl implements ServicioRepository {
 		sql_find_user.append("S.LATDES,S.LNGDES,S.PLACAVEHICULO, S.CODPASAJERO,S.CODCONDUCTOR, ");
 		sql_find_user.append("DATE_FORMAT(S.FEC_REGISTRO,'%d/%m/%Y %H:%i:%s') FEC_REGISTRO, ");
 		sql_find_user.append("S.ESTSERVICIO, P.NOMBRE, P.APELLIDO, P.TELEFONO, P.FOTO AS FOTO, ");
-		sql_find_user.append("S.VALORACION, S.PRECIO ");
+		sql_find_user.append("S.VALORACION, S.PRECIO, S.COMENTARIO, ");
+		sql_find_user.append("DATE_FORMAT(S.FEC_SERVICIO,'%d/%m/%Y %H:%i:%s') FEC_SERVICIO ");
 		sql_find_user.append("FROM tbl_servicios S, tbl_pasajero P ");
 		sql_find_user.append("WHERE S.CODPASAJERO=P.CODIGO ");
-		sql_find_user.append("AND S.ESTSERVICIO='P' "); 
+		sql_find_user.append("AND S.ESTSERVICIO='D' "); 
 
 		logger.info("data"+sql_find_user);
   		
@@ -85,10 +86,11 @@ public class ServicioRepositoryImpl implements ServicioRepository {
 		sql_find_user.append("S.LATDES,S.LNGDES,S.PLACAVEHICULO, S.CODPASAJERO,S.CODCONDUCTOR, ");
 		sql_find_user.append("DATE_FORMAT(S.FEC_REGISTRO,'%d/%m/%Y %H:%i:%s') FEC_REGISTRO, ");
 		sql_find_user.append("S.ESTSERVICIO, P.NOMBRE, P.APELLIDO, P.TELEFONO, P.FOTO AS FOTO, ");
-		sql_find_user.append("S.VALORACION, S.PRECIO ");
+		sql_find_user.append("S.VALORACION, S.PRECIO, S.COMENTARIO, ");
+		sql_find_user.append("DATE_FORMAT(S.FEC_SERVICIO,'%d/%m/%Y %H:%i:%s') FEC_SERVICIO ");
 		sql_find_user.append("FROM tbl_servicios S, tbl_pasajero P ");
 		sql_find_user.append("WHERE S.CODPASAJERO=P.CODIGO ");
-		sql_find_user.append("AND S.ESTSERVICIO!='P' "); 
+		sql_find_user.append("AND S.ESTSERVICIO!='D' "); 
 		
 		logger.info("data"+sql_find_user);
   		
@@ -122,18 +124,21 @@ public class ServicioRepositoryImpl implements ServicioRepository {
 		sql_find_user.append("S.LATDES,S.LNGDES,S.PLACAVEHICULO, S.CODPASAJERO,S.CODCONDUCTOR, ");
 		sql_find_user.append("DATE_FORMAT(S.FEC_REGISTRO,'%d/%m/%Y %H:%i:%s') FEC_REGISTRO, ");
 		sql_find_user.append("S.ESTSERVICIO, P.NOMBRE, P.APELLIDO, P.TELEFONO, P.FOTO AS FOTO, ");
-		sql_find_user.append("S.VALORACION, S.PRECIO ");
+		sql_find_user.append("S.VALORACION, S.PRECIO, S.COMENTARIO, ");
+		sql_find_user.append("DATE_FORMAT(S.FEC_SERVICIO,'%d/%m/%Y %H:%i:%s') FEC_SERVICIO ");
 		sql_find_user.append("FROM tbl_servicios S, tbl_pasajero P ");
 		sql_find_user.append("WHERE S.CODPASAJERO=P.CODIGO ");
-		sql_find_user.append("AND S.ESTSERVICIO!='P' "); 		
+		sql_find_user.append("AND S.ESTSERVICIO!='D' "); 	
+		//sql_find_user.append(" and DATE_FORMAT(FEC_REGISTRO,'%d/%m/%Y')=? "); 	
+
 		sql_find_user.append("limit ?,?"); 
 		
 		logger.info("data"+sql_find_user);
   		
   		Object[] params = new Object[] {
-  		//conductor.getEmail(), conductor.getPassword(), conductor.getEstado()
-  		pagina,rango		
-		};
+  		//paginado.getFechaInicio(),
+  		pagina, rango 
+  		};
 		
     	lista = (List <Servicio> )jdbcTemplate.query(sql_find_user.toString(),params, new ServicioMapper());        	
   		logger.info("size.::"+lista.size());

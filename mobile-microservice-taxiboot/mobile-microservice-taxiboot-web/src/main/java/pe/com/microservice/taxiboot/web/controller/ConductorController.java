@@ -136,13 +136,20 @@ public class ConductorController {
 	@RequestMapping(value ="/service/generaConductor", 
 			method = RequestMethod.POST, produces = { "application/json" })
 	@ResponseBody
-	public TransactionRs<BeanResponse> registrarConductor(
+	public TransactionRs<Conductor> registrarConductor(
 			@RequestHeader HttpHeaders headers, @RequestBody BeanRequest request) {
 		
-		logger.info("registraConductor::");
-		TransactionRs<BeanResponse> response = new TransactionRs<BeanResponse>();
+		logger.info("generaConductor::");
+		TransactionRs<Conductor> response = new TransactionRs<Conductor>();
 		Equipo equipo = new Equipo();
 		Conductor conductor = new Conductor();
+		
+		try {
+			logger.info("generaConductor==>:::"+request.toString());
+			
+		} catch (Exception e) {
+			logger.info("generaConductor::"+e.getMessage());			
+		}	
 		
 		try {
 			HeaderRq headerRq = headerRqUtil.getHttpHeader(headers);
@@ -165,7 +172,13 @@ public class ConductorController {
 				logger.info("equipo==>"+request.getEquipo().toString());
 				logger.info("conductor==>"+request.getConductor().toString());
 				conductorService.insertConductor(conductor);
+					
 				
+				Conductor bean = conductorService.getConductor(conductor);
+				if(bean!=null)
+					bean.setPassword(null);
+
+				response.setRespuesta(bean);
 				logger.info("fin");	
 			
 			}			

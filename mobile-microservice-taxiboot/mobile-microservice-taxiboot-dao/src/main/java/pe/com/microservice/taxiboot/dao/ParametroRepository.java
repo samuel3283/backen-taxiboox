@@ -10,5 +10,6 @@ import pe.com.microservice.taxiboot.model.Servicio;
 public interface ParametroRepository {
 
 	List<Parametro> listParametro(String tipo) throws Exception;
-	
+	Parametro getParametro(String tipo) throws Exception;
+
 }

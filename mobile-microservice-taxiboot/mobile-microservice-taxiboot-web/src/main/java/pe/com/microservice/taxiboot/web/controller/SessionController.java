@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import pe.com.microservice.taxiboot.core.HeaderRqUtil;
+import pe.com.microservice.taxiboot.model.BeanRequest;
 import pe.com.microservice.taxiboot.model.BeanResponse;
 import pe.com.microservice.taxiboot.model.Conductor;
 import pe.com.microservice.taxiboot.model.Equipo;
@@ -31,6 +32,8 @@ public class SessionController {
 
 	@Autowired
 	private SessionService sessionService;
+
+
 
 	@Autowired
 	private HeaderRqUtil headerRqUtil;
@@ -132,6 +135,46 @@ public class SessionController {
 			method = RequestMethod.POST, produces = { "application/json" })
 	@ResponseBody
 	public TransactionRs<Session> updateConductor(
+			@RequestHeader HttpHeaders headers, @RequestBody BeanRequest request) {
+		
+		logger.info("....updateConductor....");
+		TransactionRs<Session> response = new TransactionRs<Session>();
+		//System.out.println("request::"+request.getConductor().toString());
+		
+		try {
+			logger.info("Obtener request updateConductor...."+request.toString());
+			
+		} catch (Exception e) {
+			logger.info("Error parse datos. ",e.getMessage());
+		}
+		
+		
+		try {
+			Conductor conductor = request.getConductor();
+			
+			HeaderRq headerRq = headerRqUtil.getHttpHeader(headers);
+			//logger.info("objeto...."+request.toString());
+			Session session = new Session();
+			session.setToken(headerRq.getToken());
+			session.setNombre(conductor.getNombre());
+			session.setApellido(conductor.getApellido());
+			session.setEmail(conductor.getEmail());
+			sessionService.updateDatosSession(session);
+			
+		} catch (Exception e) {
+			logger.error("Error updateConductor. ",e.getMessage());
+			response.setCodigoError("5000");
+			response.setDescripcion("Error Session not found");
+		}
+		
+		return response;
+	}
+
+
+	@RequestMapping(value ="/service/updConductor", 
+			method = RequestMethod.POST, produces = { "application/json" })
+	@ResponseBody
+	public TransactionRs<Session> updConductor(
 			@RequestHeader HttpHeaders headers, @RequestBody Conductor request) {
 		
 		logger.info("updateConductor....");
@@ -156,7 +199,6 @@ public class SessionController {
 		return response;
 	}
 
-	
 	
 	@RequestMapping(value ="/service/sendOlvido", 
 			method = RequestMethod.POST, produces = { "application/json" })

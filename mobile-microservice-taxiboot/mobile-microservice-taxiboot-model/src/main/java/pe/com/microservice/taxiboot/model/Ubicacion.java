@@ -11,6 +11,7 @@ public class Ubicacion {
 	@JsonInclude(Include.NON_NULL)
 	private Integer codigo;
 
+	private String origen;
 	private String latitud;
 	private String longitud;
 	private String altura;
@@ -129,12 +130,24 @@ public class Ubicacion {
 	}
 
 
+	public String getOrigen() {
+		return origen;
+	}
+
+
+	public void setOrigen(String origen) {
+		this.origen = origen;
+	}
+
+
 	@Override
 	public String toString() {
-		return "Ubicacion [codigo=" + codigo + ", latitud=" + latitud + ", longitud=" + longitud + ", altura=" + altura
-				+ ", velocidad=" + velocidad + ", aproximacion=" + aproximacion + ", codigoConductor=" + codigoConductor
-				+ ", placa=" + placa + ", fecRegistro=" + fecRegistro + ", fecModifica=" + fecModifica + "]";
+		return "Ubicacion [codigo=" + codigo + ", origen=" + origen + ", latitud=" + latitud + ", longitud=" + longitud
+				+ ", altura=" + altura + ", velocidad=" + velocidad + ", aproximacion=" + aproximacion
+				+ ", codigoConductor=" + codigoConductor + ", placa=" + placa + ", fecRegistro=" + fecRegistro
+				+ ", fecModifica=" + fecModifica + "]";
 	}
+
 	
 	
 }
